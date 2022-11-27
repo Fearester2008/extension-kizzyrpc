@@ -103,6 +103,22 @@ public class KizzyRPC extends Extension {
 		createClient();
 	}
 
+	public void updateClient(String json) {
+		ArrayMap<String, Object> activity = gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType());
+
+		presence.put("activities", new Object[] {
+			activity
+		});
+		presence.put("afk", true);
+		presence.put("since", start_timestamps);
+		presence.put("status", status);
+
+		rpc.put("op", 3);
+		rpc.put("d", presence);
+
+		sendToClient(rcp);
+	}
+
 	public void sendIdentify() {
 		ArrayMap<String, Object> prop = new ArrayMap<>();
 		prop.put("os", "Linux");
