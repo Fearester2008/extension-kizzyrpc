@@ -106,7 +106,7 @@ public class KizzyClient extends Extension {
 			activity
 		});
 		presence.put("afk", true);
-		presence.put("since", start_timestamps);
+		presence.put("since", startTimeStamps);
 		presence.put("status", status);
 
 		rpc.put("op", 3);
@@ -177,7 +177,7 @@ public class KizzyClient extends Extension {
 							sessionId = ((Map) map.get("d")).get("session_id").toString();
 							Log.i(LOG_TAG, "Connected!");
 
-							sendToClient(rcp);
+							sendToClient(rpc);
 							return;
 						}
 						break;
@@ -196,15 +196,15 @@ public class KizzyClient extends Extension {
 							heartbeatThread.start();
 							reconnectSession = false;
 
-							ArrayMap<String, Object> data = new ArrayMap<String, Object>();
-							data.put("token", token);
-							data.put("session_id", sessionId);
-							data.put("seq", seq);
+							ArrayMap<String, Object> d = new ArrayMap<String, Object>();
+							d.put("token", token);
+							d.put("session_id", sessionId);
+							d.put("seq", seq);
 
-							ArrayMap<String, Object> dataToSend = new ArrayMap<String, Object>();
-							dataToSend.put("op", 6);
-							dataToSend.put("d", data);
-							sendToClient(dataToSend);
+							ArrayMap<String, Object> obj = new ArrayMap<String, Object>();
+							obj.put("op", 6);
+							obj.put("d", d);
+							sendToClient(obj);
 						}
 						break;
 					case 1:
