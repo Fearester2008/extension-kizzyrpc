@@ -67,12 +67,11 @@ public class KizzyRPC extends Extension {
 	ArrayList<String> buttons = new ArrayList<>();
 	ArrayList<String> button_url = new ArrayList<>();
 
-	public KizzyRPCservice(String token) {
+	public KizzyRPC(String token) {
 
 		this.token = token;
 
 		heartbeatRunnable = new Runnable() {
-
 			public void run() {
 				try {
 					if (heartbeat_interval < 10000) {
