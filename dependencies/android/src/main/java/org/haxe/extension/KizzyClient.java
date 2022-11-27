@@ -125,7 +125,7 @@ public class KizzyClient extends Extension {
 		rpc.put("op", 3);
 		rpc.put("d", d);
 
-		sendToClient(rcp);
+		sendToClient(rpc);
 	}
 
 	public void sendIdentify() {
