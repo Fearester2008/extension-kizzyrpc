@@ -63,7 +63,7 @@ public class KizzyClient extends Extension {
 
 	private boolean reconnect_session = false;
 
-	public KizzyRPC(String token) {
+	public KizzyClient(String token) {
 
 		this.token = token;
 
