@@ -48,31 +48,35 @@ public class KizzyClient extends Extension {
 	public static final String LOG_TAG = "KizzyClient";
 
 	private String token;
-	private String applicationId;
-	private String activityName;
+	private String session_id;
+	private String application_id;
+	private String name;
 	private String details;
 	private String state;
-	private String largeImage;
-	private String smallImage;
+	private String large_image;
+	private String small_image;
 	private String status;
 
-	private int type;
-	private int seq;
+	private Long start;
+	private Long stop;
 
-	private Long startTimeStamps;
-	private Long stopTimeStamps;
+	private int type = 0;
+	private int seq = 0;
+
+	private boolean reconnectSession = false;
+
+	private ArrayList<String> buttons = new ArrayList<String>();
+	private ArrayList<String> button_urls = new ArrayList<String>();
 
 	private ArrayMap<String, Object> rpc = new ArrayMap<String, Object>();
 
 	private WebSocketClient webSocketClient;
+
 	private Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
-	private int heartbeatInterval;
+	private int heartbeatInterval = 0;
 	private Runnable heartbeatRunnable;
 	private Thread heartbeatThread;
-
-	private String sessionId;
-	private boolean reconnectSession = false;
 
 	public KizzyClient(String token) {
 
@@ -98,34 +102,110 @@ public class KizzyClient extends Extension {
 		};
 	}
 
-	public void buildClient(String json) {
-		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
-		d.put("activities", new Object[] {
-			gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType())
-		});
-		d.put("afk", true);
-		d.put("since", startTimeStamps);
-		d.put("status", status);
-
-		rpc.put("op", 3);
-		rpc.put("d", d);
-
-		createClient();
+	public KizzyRPCservice setApplicationID(String id) {
+		this.application_id = id;
+		return this;
 	}
 
-	public void updateClient(String json) {
+	public KizzyRPCservice setName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public KizzyRPCservice setDetails(String details) {
+		this.details = details;
+		return this;
+	}
+
+	public KizzyRPCservice setState(String state) {
+		this.state = state;
+		return this;
+	}
+
+	public KizzyRPCservice setLargeImage(String large_image) {
+		this.large_image = "mp:" + large_image;
+		return this;
+	}
+
+	public KizzyRPCservice setSmallImage(String link) {
+		this.small_image = "mp:" + link;
+		return this;
+	}
+
+	public KizzyRPCservice setStartTimeStamps(Long timestamps) {
+		this.start = timestamps;
+		return this;
+	}
+
+	public KizzyRPCservice setStopTimeStamps(Long timestamps) {
+		this.stop = timestamps;
+		return this;
+	}
+
+	public KizzyRPCservice setType(int type) {
+		this.type = type;
+		return this;
+	}
+
+	public KizzyRPCservice setStatus(String status) {
+		this.status = status;
+		return this;
+	}
+
+	public KizzyRPCservice setButton1(String label, String link) {
+		buttons.add(label);
+		button_urls.add(link);
+		return this;
+	}
+
+	public KizzyRPCservice setButton2(String label, String link) {
+		buttons.add(label);
+		button_urls.add(link);
+		return this;
+	}
+
+	public void rebuildClient(String json) {
+		ArrayMap<String, Object> activity = new ArrayMap<String, Object>();
+		activity.put("application_id", application_id);
+		activity.put("name", name);
+		activity.put("details", details);
+		activity.put("state", state);
+		activity.put("type", type);
+
+		ArrayMap<String, Object> timestamps = new ArrayMap<String, Object>();
+		timestamps.put("start", start);
+		timestamps.put("stop", stop);
+		activity.put("timestamps", timestamps);
+
+		ArrayMap<String, Object> assets = new ArrayMap<String, Object>();
+		assets.put("large_image", large_image);
+		assets.put("small_image", small_image);
+		activity.put("assets", assets);
+
+		if (buttons.size() > 0) {
+			activity.put("buttons", buttons);
+
+			ArrayMap<String, Object> metadata = new ArrayMap<String, Object>();
+			metadata.put("button_urls", button_urls);
+			activity.put("metadata", metadata);
+		}
+
 		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
 		d.put("activities", new Object[] {
-			gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType())
+			activity
 		});
 		d.put("afk", true);
-		d.put("since", startTimeStamps);
+		d.put("since", start);
 		d.put("status", status);
 
 		rpc.put("op", 3);
 		rpc.put("d", d);
 
-		sendToClient(rpc);
+		if (isClientRunning()) {
+			sendToClient(rpc);
+		} else {
+			createClient();
+		}
 	}
 
 	public void sendIdentify() {
@@ -168,7 +248,7 @@ public class KizzyClient extends Extension {
 			@Override
 			public void onMessage(String message) {
 				ArrayMap<String, Object> map = gson.fromJson(
-					message, new TypeToken<ArrayMap<String, Object>>() {}.getType()
+					message, new TypeToken < ArrayMap<String, Object>>() {}.getType()
 				);
 				Object o = map.get("s");
 
@@ -179,12 +259,13 @@ public class KizzyClient extends Extension {
 				switch (((Double) map.get("op")).intValue()) {
 					case 0:
 						if (((String) map.get("t")).equals("READY")) {
-							sessionId = ((Map) map.get("d")).get("session_id").toString();
+							session_id = ((Map) map.get("d")).get("session_id").toString();
 							Log.i(LOG_TAG, "Connected!");
 
 							sendToClient(rpc);
 							return;
 						}
+
 						break;
 					case 10: // Hello
 						if (!reconnectSession) {
@@ -203,7 +284,7 @@ public class KizzyClient extends Extension {
 
 							ArrayMap<String, Object> d = new ArrayMap<String, Object>();
 							d.put("token", token);
-							d.put("session_id", sessionId);
+							d.put("session_id", session_id);
 							d.put("seq", seq);
 
 							ArrayMap<String, Object> obj = new ArrayMap<String, Object>();
@@ -211,6 +292,7 @@ public class KizzyClient extends Extension {
 							obj.put("d", d);
 							sendToClient(obj);
 						}
+
 						break;
 					case 1:
 						if (!heartbeatThread.interrupted()) {
@@ -241,6 +323,7 @@ public class KizzyClient extends Extension {
 							heartbeatThread.start();
 							sendIdentify();
 						}
+
 						break;
 				}
 			}
