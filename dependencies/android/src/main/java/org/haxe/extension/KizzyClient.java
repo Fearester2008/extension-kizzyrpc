@@ -86,10 +86,10 @@ public class KizzyClient extends Extension {
 					}
 
 					Thread.sleep(heartbeatInterval);
-					ArrayMap<String, Object> message = new ArrayMap<>();
-					message.put("op", 1);
-					message.put("d", seq == 0 ? "null" : Integer.toString(seq));
-					sendToClient(message);
+					ArrayMap<String, Object> dataToSend = new ArrayMap<>();
+					dataToSend.put("op", 1);
+					dataToSend.put("d", seq == 0 ? "null" : Integer.toString(seq));
+					sendToClient(dataToSend);
 
 				} catch (Exception e) {
 					Log.e(LOG_TAG, e.toString());
@@ -163,7 +163,7 @@ public class KizzyClient extends Extension {
 			@Override
 			public void onMessage(String message) {
 				ArrayMap<String, Object> map = gson.fromJson(
-					message, new TypeToken < ArrayMap<String, Object>>() {}.getType()
+					message, new TypeToken<ArrayMap<String, Object>>() {}.getType()
 				);
 				Object o = map.get("s");
 
@@ -192,8 +192,8 @@ public class KizzyClient extends Extension {
 							Log.i(LOG_TAG, "Sending Reconnect...");
 							Map data = (Map) map.get("d");
 							heartbeatInterval = ((Double) data.get("heartbeat_interval")).intValue();
-							heartbeatThreadead = new Thread(heartbeatRunnable);
-							heartbeatThreadead.start();
+							heartbeatThread = new Thread(heartbeatRunnable);
+							heartbeatThread.start();
 							reconnectSession = false;
 
 							ArrayMap<String, Object> data = new ArrayMap<String, Object>();
@@ -201,26 +201,25 @@ public class KizzyClient extends Extension {
 							data.put("session_id", sessionId);
 							data.put("seq", seq);
 
-							ArrayMap<String, Object> message = new ArrayMap<String, Object>();
-							message.put("op", 6);
-							message.put("d", data);
-
-							sendToClient(message);
+							ArrayMap<String, Object> dataToSend = new ArrayMap<String, Object>();
+							dataToSend.put("op", 6);
+							dataToSend.put("d", data);
+							sendToClient(dataToSend);
 						}
 						break;
 					case 1:
-						if (!heartbeatThreadead.interrupted()) {
-							heartbeatThreadead.interrupt();
+						if (!heartbeatThread.interrupted()) {
+							heartbeatThread.interrupt();
 						}
 
-						ArrayMap<String, Object> message = new ArrayMap<String, Object>();
-						message.put("op", 1);
-						message.put("d", seq == 0 ? "null" : Integer.toString(seq));
-						sendToClient(message);
+						ArrayMap<String, Object> dataToSend = new ArrayMap<String, Object>();
+						dataToSend.put("op", 1);
+						dataToSend.put("d", seq == 0 ? "null" : Integer.toString(seq));
+						sendToClient(dataToSend);
 						break;
 					case 11:
-						if (!heartbeatThreadead.interrupted()) {
-							heartbeatThreadead.interrupt();
+						if (!heartbeatThread.interrupted()) {
+							heartbeatThread.interrupt();
 						}
 
 						heartbeatThread = new Thread(heartbeatRunnable);
@@ -231,10 +230,10 @@ public class KizzyClient extends Extension {
 						webSocketClient.close(4000);
 						break;
 					case 9:
-						if (!heartbeatThreadead.isInterrupted()) {
-							heartbeatThreadead.interrupt();
-							heartbeatThreadead = new Thread(heartbeatRunnable);
-							heartbeatThreadead.start();
+						if (!heartbeatThread.isInterrupted()) {
+							heartbeatThread.interrupt();
+							heartbeatThread = new Thread(heartbeatRunnable);
+							heartbeatThread.start();
 							sendIdentify();
 						}
 						break;
