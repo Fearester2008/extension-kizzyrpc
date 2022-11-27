@@ -47,25 +47,21 @@ public class KizzyRPC extends Extension {
 
 	public static final String LOG_TAG = "KizzyRPC";
 
-	String token;
-	String applicationId, activity_name, details, state, large_image, small_image, status;
-	Long start_timestamps, stop_timestamps;
-	int type;
-	ArrayMap<String, Object> rpc = new ArrayMap<>();
-	WebSocketClient webSocketClient;
-	Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-
-	public Runnable heartbeatRunnable;
-
-	public Thread heartbeatThr;
-
-	public int heartbeat_interval, seq;
-
+	private String token;
 	private String session_id;
 
-	private Boolean reconnect_session = false;
-	ArrayList<String> buttons = new ArrayList<>();
-	ArrayList<String> button_url = new ArrayList<>();
+	private ArrayMap<String, Object> rpc = new ArrayMap<String, Object>();
+
+	private WebSocketClient webSocketClient;
+	private Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+
+	private Runnable heartbeatRunnable;
+
+	private Thread heartbeatThr;
+
+	private int heartbeat_interval, seq;
+
+	private boolean reconnect_session = false;
 
 	public KizzyRPC(String token) {
 
@@ -91,182 +87,8 @@ public class KizzyRPC extends Extension {
 		};
 	}
 
-	/**
-	 * Application Id for Rpc
-	 * An application id is required for functioning of urls in buttons
-	 * @param activity_name
-	 * @return
-	 */
-
-	public KizzyRPCservice setApplicationId(String applicationId) {
-		this.applicationId = applicationId;
-		return this;
-	}
-
-	/**
-	 * Activity Name of Rpc
-	 *
-	 * @param activity_name
-	 * @return
-	 */
-
-	public KizzyRPCservice setName(String activity_name) {
-		this.activity_name = activity_name;
-		return this;
-	}
-
-	/**
-	 * Details of Rpc
-	 *
-	 * @param details
-	 * @return
-	 */
-
-	public KizzyRPCservice setDetails(String details) {
-		this.details = details;
-		return this;
-	}
-
-	/**
-	 * Rpc State
-	 *
-	 * @param state
-	 * @return
-	 */
-
-	public KizzyRPCservice setState(String state) {
-		this.state = state;
-		return this;
-	}
-
-	/**
-	 * Large image on rpc
-	 * How to get Image ?
-	 * Upload image to any discord chat and copy its media link it should look like "https://media.discordapp.net/attachments/90202992002/xyz.png" now just use the image link from attachments part
-	 * so it would look like: .setLargeImage("attachments/90202992002/xyz.png")
-	 * @param large_image
-	 * @return
-	 */
-
-	public KizzyRPCservice setLargeImage(String large_image) {
-		this.large_image = "mp:" + large_image;
-		return this;
-	}
-
-	/**
-	 * Small image on Rpc
-	 *
-	 * @param small_image
-	 * @return
-	 */
-
-	public KizzyRPCservice setSmallImage(String small_image) {
-		this.small_image = "mp:" + small_image;
-		return this;
-	}
-
-	/**
-	 * start timestamps
-	 *
-	 * @param start_timestamps
-	 * @return
-	 */
-
-	public KizzyRPCservice setStartTimestamps(Long start_timestamps) {
-		this.start_timestamps = start_timestamps;
-		return this;
-	}
-
-	/**
-	 * stop timestamps
-	 *
-	 * @param stop_timestamps
-	 * @return
-	 */
-
-	public KizzyRPCservice setStopTimestamps(Long stop_timestamps) {
-		this.stop_timestamps = stop_timestamps;
-		return this;
-	}
-
-	/**
-	 * Activity Types
-	 * 0: Playing
-	 * 1: Streaming
-	 * 2: Listening
-	 * 3: Watching
-	 * 5: Competing
-	 *
-	 * @param type
-	 * @return
-	 */
-
-	public KizzyRPCservice setType(int type) {
-		this.type = type;
-		return this;
-	}
-
-	/**
-	 * Status type for profile online,idle,dnd
-	 *
-	 * @param status
-	 * @return
-	 */
-
-	public KizzyRPCservice setStatus(String status) {
-		this.status = status;
-		return this;
-	}
-
-	/**
-	 * Button1 text
-	 * @param status
-	 * @return
-	 */
-
-	public KizzyRPCservice setButton1(String button_label, String link) {
-		buttons.add(button_label);
-		button_url.add(link);
-		return this;
-	}
-
-	/**
-	 * Button2 text
-	 * @param button1_Text
-	 * @return
-	 */
-
-	public KizzyRPCservice setButton2(String button_label, String link) {
-		buttons.add(button_label);
-		button_url.add(link);
-		return this;
-	}
-
-	public void build() {
-		ArrayMap<String, Object> presence = new ArrayMap<>();
-		ArrayMap<String, Object> activity = new ArrayMap<>();
-		activity.put("application_id", applicationId);
-		activity.put("name", activity_name);
-		activity.put("details", details);
-		activity.put("state", state);
-		activity.put("type", type);
-
-		ArrayMap<String, Object> timestamps = new ArrayMap<>();
-		timestamps.put("start", start_timestamps);
-		timestamps.put("stop", stop_timestamps);
-		activity.put("timestamps", timestamps);
-
-		ArrayMap<String, Object> assets = new ArrayMap<>();
-		assets.put("large_image", large_image);
-		assets.put("small_image", small_image);
-		activity.put("assets", assets);
-
-		if (buttons.size() > 0) {
-			ArrayMap<String, Object> metadata = new ArrayMap<>();
-			activity.put("buttons", buttons);
-			metadata.put("button_urls", button_url);
-			activity.put("metadata", metadata);
-		}
+	public void buildClient(String json) {
+		ArrayMap<String, Object> activity = gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType());
 
 		presence.put("activities", new Object[] {
 			activity
@@ -278,7 +100,7 @@ public class KizzyRPC extends Extension {
 		rpc.put("op", 3);
 		rpc.put("d", presence);
 
-		createWebsocketClient();
+		createClient();
 	}
 
 	public void sendIdentify() {
@@ -297,10 +119,10 @@ public class KizzyRPC extends Extension {
 		identify.put("op", 2);
 		identify.put("d", data);
 
-		webSocketClient.send(gson.toJson(identify));
+		sendToClient(identify);
 	}
 
-	public void createWebsocketClient() {
+	private void createClient() {
 		Log.i(LOG_TAG, "Connecting...");
 
 		ArrayMap<String, String> headerMap = new ArrayMap<>();
@@ -328,7 +150,7 @@ public class KizzyRPC extends Extension {
 							session_id = ((Map) map.get("d")).get("session_id").toString();
 							Log.i(LOG_TAG, "Connected!");
 
-							webSocketClient.send(gson.toJson(rpc));
+							sendToClient(rcp);
 							return;
 						}
 						break;
@@ -356,7 +178,7 @@ public class KizzyRPC extends Extension {
 							message.put("op", 6);
 							message.put("d", data);
 
-							webSocketClient.send(gson.toJson(message));
+							sendToClient(message);
 						}
 						break;
 					case 1:
@@ -368,7 +190,7 @@ public class KizzyRPC extends Extension {
 						message.put("op", 1);
 						message.put("d", seq == 0 ? "null" : Integer.toString(seq));
 
-						webSocketClient.send(gson.toJson(message));
+						sendToClient(message);
 						break;
 					case 11:
 						if (!heartbeatThr.interrupted()) {
@@ -425,6 +247,11 @@ public class KizzyRPC extends Extension {
 			}
 		};
 		webSocketClient.connect();
+	}
+
+	public void sendToClient(Object obj) {
+		if (webSocketClient != null)
+			webSocketClient.send(gson.toJson(obj));
 	}
 
 	public void closeClient() {
