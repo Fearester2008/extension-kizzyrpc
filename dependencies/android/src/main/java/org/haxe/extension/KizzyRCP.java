@@ -78,7 +78,7 @@ public class KizzyRPC extends Extension {
 					ArrayMap<String, Object> message = new ArrayMap<>();
 					message.put("op", 1);
 					message.put("d", seq == 0 ? "null" : Integer.toString(seq));
-					webSocketClient.send(gson.toJson(message));
+					sendToClient(message);
 
 				} catch (Exception e) {
 					Log.e(LOG_TAG, e.toString());
