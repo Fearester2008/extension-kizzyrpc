@@ -43,7 +43,6 @@ import org.haxe.extension.Extension;
 	function for performing a single task, like returning a value
 	back to Haxe from Java.
 */
-
 public class KizzyRPC extends Extension {
 
 	public static final String LOG_TAG = "KizzyRPC";
@@ -360,7 +359,6 @@ public class KizzyRPC extends Extension {
 
 							webSocketClient.send(gson.toJson(message));
 						}
-
 						break;
 					case 1:
 						if (!heartbeatThr.interrupted()) {
@@ -392,7 +390,6 @@ public class KizzyRPC extends Extension {
 							heartbeatThr.start();
 							sendIdentify();
 						}
-
 						break;
 				}
 			}
@@ -404,7 +401,6 @@ public class KizzyRPC extends Extension {
 					heartbeatThr.interrupt();
 					Log.e(LOG_TAG, "Closed Socket");
 					Thread newTh = new Thread(new Runnable() {
-
 						public void run() {
 							try {
 								Thread.sleep(200);
@@ -430,7 +426,7 @@ public class KizzyRPC extends Extension {
 		webSocketClient.connect();
 	}
 
-	public void close() {
+	public void closeClient() {
 		if (heartbeatThr != null && !heartbeatThr.isInterrupted())
 			heartbeatThr.interrupt();
 
@@ -438,7 +434,7 @@ public class KizzyRPC extends Extension {
 			webSocketClient.close(1000);
 	}
 
-	public boolean isRunning() {
+	public boolean isClientRunning() {
 		if (webSocketClient != null)
 			return webSocketClient.isOpen;
 
