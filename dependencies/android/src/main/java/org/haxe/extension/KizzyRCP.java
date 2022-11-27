@@ -125,9 +125,7 @@ public class KizzyRPC extends Extension {
 	private void createClient() {
 		Log.i(LOG_TAG, "Connecting...");
 
-		ArrayMap<String, String> headerMap = new ArrayMap<>();
-
-		webSocketClient = new WebSocketClient(new URI("wss://gateway.discord.gg/?encoding=json&v=10"), headerMap) {
+		webSocketClient = new WebSocketClient(new URI("wss://gateway.discord.gg/?encoding=json&v=10")) {
 			@Override
 			public void onOpen(ServerHandshake s) {
 				Log.i(LOG_TAG, s.getHttpStatusMessage());
