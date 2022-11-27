@@ -85,11 +85,11 @@ class KizzyClient
 	}
 
 	public function rebuildClient():Void
-		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'rebuildClient', '()V'), service, []);
+		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'rebuildClient', '()V'), constructor, []);
 
 	public function closeClient():Void
-		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'closeClient', '()V'), service, []);
+		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'closeClient', '()V'), constructor, []);
 
 	public function isClientRunning():Bool
-		return JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'isClientRunning', '()Z'), service, []);
+		return JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'isClientRunning', '()Z'), constructor, []);
 }
