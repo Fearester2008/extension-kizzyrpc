@@ -164,7 +164,7 @@ public class KizzyClient extends Extension {
 		return this;
 	}
 
-	public void rebuildClient(String json) {
+	public void rebuildClient() {
 		ArrayMap<String, Object> activity = new ArrayMap<String, Object>();
 		activity.put("application_id", application_id);
 		activity.put("name", name);
@@ -208,7 +208,7 @@ public class KizzyClient extends Extension {
 		}
 	}
 
-	public void sendIdentify() {
+	private void sendIdentify() {
 		ArrayMap<String, Object> properties = new ArrayMap<String, Object>();
 		properties.put("os", "Linux");
 		properties.put("browser", "Unknown");
@@ -227,7 +227,7 @@ public class KizzyClient extends Extension {
 		sendToClient(identify);
 	}
 
-	public void createClient() {
+	private void createClient() {
 		URI uri;
 
 		try {
