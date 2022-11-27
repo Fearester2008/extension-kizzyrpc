@@ -106,7 +106,7 @@ public class KizzyRPC extends Extension {
 	public void sendIdentify() {
 		ArrayMap<String, Object> prop = new ArrayMap<>();
 		prop.put("os", "Linux");
-		prop.put("browser", "Chrome");
+		prop.put("browser", "Unknown");
 		prop.put("device", Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")");
 
 		ArrayMap<String, Object> data = new ArrayMap<>();
