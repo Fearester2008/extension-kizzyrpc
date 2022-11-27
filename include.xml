@@ -2,7 +2,7 @@
 <extension>
 	<!-- Use the following for an Android Java extension, not needed otherwise -->
 
-	<dependency name="androidtools" path="dependencies/android" if="android" />
+	<dependency name="kizzyrcp" path="dependencies/android" if="android" />
 
 	<config:android extension="org.haxe.extension.KizzyRCP" />
 	<config:android permission="android.permission.INTERNET" />
