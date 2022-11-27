@@ -148,9 +148,18 @@ public class KizzyClient extends Extension {
 	}
 
 	public void createClient() {
+		URI uri;
+
+		try {
+			uri = new URI("wss://gateway.discord.gg/?encoding=json&v=10");
+		} catch (Exception e) {
+			Log.e(LOG_TAG, e.toString());
+			return;
+		}
+
 		Log.i(LOG_TAG, "Connecting...");
 
-		webSocketClient = new WebSocketClient(new URI("wss://gateway.discord.gg/?encoding=json&v=10")) {
+		webSocketClient = new WebSocketClient(uri) {
 			@Override
 			public void onOpen(ServerHandshake s) {
 				Log.i(LOG_TAG, s.getHttpStatusMessage());
