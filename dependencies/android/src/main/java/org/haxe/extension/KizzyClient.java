@@ -86,10 +86,10 @@ public class KizzyClient extends Extension {
 					}
 
 					Thread.sleep(heartbeatInterval);
-					ArrayMap<String, Object> dataToSend = new ArrayMap<>();
-					dataToSend.put("op", 1);
-					dataToSend.put("d", seq == 0 ? "null" : Integer.toString(seq));
-					sendToClient(dataToSend);
+					ArrayMap<String, Object> obj = new ArrayMap<>();
+					obj.put("op", 1);
+					obj.put("d", seq == 0 ? "null" : Integer.toString(seq));
+					sendToClient(obj);
 
 				} catch (Exception e) {
 					Log.e(LOG_TAG, e.toString());
@@ -99,54 +99,50 @@ public class KizzyClient extends Extension {
 	}
 
 	public void buildClient(String json) {
-		ArrayMap<String, Object> activity = gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType());
-
-		ArrayMap<String, Object> presence = new ArrayMap<String, Object>();
-		presence.put("activities", new Object[] {
-			activity
+		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
+		d.put("activities", new Object[] {
+			gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType())
 		});
-		presence.put("afk", true);
-		presence.put("since", startTimeStamps);
-		presence.put("status", status);
+		d.put("afk", true);
+		d.put("since", startTimeStamps);
+		d.put("status", status);
 
 		rpc.put("op", 3);
-		rpc.put("d", presence);
+		rpc.put("d", d);
 
 		createClient();
 	}
 
 	public void updateClient(String json) {
-		ArrayMap<String, Object> activity = gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType());
-
-		ArrayMap<String, Object> presence = new ArrayMap<String, Object>();
-		presence.put("activities", new Object[] {
-			activity
+		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
+		d.put("activities", new Object[] {
+			gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType())
 		});
-		presence.put("afk", true);
-		presence.put("since", start_timestamps);
-		presence.put("status", status);
+		d.put("afk", true);
+		d.put("since", startTimeStamps);
+		d.put("status", status);
 
 		rpc.put("op", 3);
-		rpc.put("d", presence);
+		rpc.put("d", d);
 
 		sendToClient(rcp);
 	}
 
 	public void sendIdentify() {
-		ArrayMap<String, Object> prop = new ArrayMap<String, Object>();
-		prop.put("os", "Linux");
-		prop.put("browser", "Unknown");
-		prop.put("device", Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")");
+		ArrayMap<String, Object> properties = new ArrayMap<String, Object>();
+		properties.put("os", "Linux");
+		properties.put("browser", "Unknown");
+		properties.put("device", Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")");
 
-		ArrayMap<String, Object> data = new ArrayMap<String, Object>();
-		data.put("token", token);
-		data.put("properties", prop);
-		data.put("compress", false);
-		data.put("intents", 0);
+		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
+		d.put("token", token);
+		d.put("properties", properties);
+		d.put("compress", false);
+		d.put("intents", 0);
 
 		ArrayMap<String, Object> identify = new ArrayMap<String, Object>();
 		identify.put("op", 2);
-		identify.put("d", data);
+		identify.put("d", d);
 
 		sendToClient(identify);
 	}
@@ -212,10 +208,10 @@ public class KizzyClient extends Extension {
 							heartbeatThread.interrupt();
 						}
 
-						ArrayMap<String, Object> dataToSend = new ArrayMap<String, Object>();
-						dataToSend.put("op", 1);
-						dataToSend.put("d", seq == 0 ? "null" : Integer.toString(seq));
-						sendToClient(dataToSend);
+						ArrayMap<String, Object> obj = new ArrayMap<String, Object>();
+						obj.put("op", 1);
+						obj.put("d", seq == 0 ? "null" : Integer.toString(seq));
+						sendToClient(obj);
 						break;
 					case 11:
 						if (!heartbeatThread.interrupted()) {
