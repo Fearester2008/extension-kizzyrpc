@@ -215,10 +215,11 @@ public class KizzyClient extends Extension {
 		properties.put("device", Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")");
 
 		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
-		d.put("token", token);
-		d.put("properties", properties);
+		d.put("capabilities", 65);
 		d.put("compress", false);
-		d.put("intents", 0);
+		d.put("largeThreshold", 100);
+		d.put("properties", properties);
+		d.put("token", token);
 
 		ArrayMap<String, Object> identify = new ArrayMap<String, Object>();
 		identify.put("op", 2);
