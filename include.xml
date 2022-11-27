@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<!-- Use the following for an Android Java extension, not needed otherwise -->
+
+	<dependency name="androidtools" path="dependencies/android" if="android" />
+
+	<config:android extension="org.haxe.extension.KizzyRCP" />
+	<config:android permission="android.permission.INTERNET" />
+</extension>
