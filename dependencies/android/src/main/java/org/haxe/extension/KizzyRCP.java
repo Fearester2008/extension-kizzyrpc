@@ -138,7 +138,7 @@ public class KizzyRPC extends Extension {
 		sendToClient(identify);
 	}
 
-	private void createClient() {
+	public void createClient() {
 		Log.i(LOG_TAG, "Connecting...");
 
 		webSocketClient = new WebSocketClient(new URI("wss://gateway.discord.gg/?encoding=json&v=10")) {
