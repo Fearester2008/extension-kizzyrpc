@@ -43,9 +43,9 @@ import org.haxe.extension.Extension;
 	function for performing a single task, like returning a value
 	back to Haxe from Java.
 */
-public class KizzyRPC extends Extension {
+public class KizzyClient extends Extension {
 
-	public static final String LOG_TAG = "KizzyRPC";
+	public static final String LOG_TAG = "KizzyClient";
 
 	private String token;
 	private String session_id;
@@ -90,6 +90,7 @@ public class KizzyRPC extends Extension {
 	public void buildClient(String json) {
 		ArrayMap<String, Object> activity = gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType());
 
+		ArrayMap<String, Object> presence = new ArrayMap<String, Object>();
 		presence.put("activities", new Object[] {
 			activity
 		});
@@ -106,6 +107,7 @@ public class KizzyRPC extends Extension {
 	public void updateClient(String json) {
 		ArrayMap<String, Object> activity = gson.fromJson(json, new TypeToken<ArrayMap<String, Object>>() {}.getType());
 
+		ArrayMap<String, Object> presence = new ArrayMap<String, Object>();
 		presence.put("activities", new Object[] {
 			activity
 		});
@@ -278,7 +280,7 @@ public class KizzyRPC extends Extension {
 
 	public boolean isClientRunning() {
 		if (webSocketClient != null)
-			return webSocketClient.isOpen;
+			return webSocketClient.isOpen();
 
 		return false;
 	}
