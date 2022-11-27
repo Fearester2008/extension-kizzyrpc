@@ -418,7 +418,9 @@ public class KizzyRPC extends Extension {
 			@Override
 			public void onError(Exception e) {
 				if (!e.getMessage().equals("Interrupt")) {
-					close();
+					closeClient();
+				} else {
+					Log.e(LOG_TAG, e.getMessage());
 				}
 			}
 		};
