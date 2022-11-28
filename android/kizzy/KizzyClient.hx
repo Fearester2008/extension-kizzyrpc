@@ -1,5 +1,8 @@
 package android.kizzy;
 
+#if (!android && !native && macro)
+#error 'extension-kizzyrpc is not supported on your current platform'
+#end
 import lime.system.JNI;
 
 using StringTools;
