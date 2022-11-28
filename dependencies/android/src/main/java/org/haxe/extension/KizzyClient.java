@@ -257,9 +257,10 @@ public class KizzyClient extends Extension {
 					seq = ((Double) map.get("s")).intValue();
 				}
 
-				switch (((Double) map.get("op")).intValue()) {
+				int op = ((Double) map.get("op")).intValue();
+				switch (op) {
 					case 0:
-						if (((String) map.get("t")).equals("READY")) {
+						if (map.get("t").toString().equals("READY")) {
 							session_id = ((Map) map.get("d")).get("session_id").toString();
 
 							Log.i(LOG_TAG, "Connected!");
@@ -275,9 +276,11 @@ public class KizzyClient extends Extension {
 						obj.put("op", 1);
 						obj.put("d", seq == 0 ? "null" : Integer.toString(seq));
 						sendToClient(obj);
+						break;
 					case 7:
 						reconnectSession = true;
 						webSocketClient.close(4000);
+						break;
 					case 9:
 						if (heartbeatThread != null && !heartbeatThread.interrupted()) {
 							heartbeatThread.interrupt();
@@ -286,6 +289,7 @@ public class KizzyClient extends Extension {
 						heartbeatThread = new Thread(heartbeatRunnable);
 						heartbeatThread.start();
 						sendIdentify();
+						break;
 					case 10:
 						heartbeatInterval = ((Map) map.get("d")).get("heartbeat_interval").intValue();
 
@@ -313,6 +317,8 @@ public class KizzyClient extends Extension {
 							obj.put("d", d);
 							sendToClient(obj);
 						}
+
+						break;
 					case 11:
 						if (heartbeatThread != null && !heartbeatThread.interrupted()) {
 							heartbeatThread.interrupt();
