@@ -69,10 +69,9 @@ public class KizzyClient extends Extension {
 	private ArrayList<String> button_urls = new ArrayList<String>();
 
 	private ArrayMap<String, Object> rpc = new ArrayMap<String, Object>();
+	private Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
 	private WebSocketClient webSocketClient;
-
-	private Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
 	private int heartbeatInterval = 0;
 	private Runnable heartbeatRunnable;
@@ -102,6 +101,8 @@ public class KizzyClient extends Extension {
 			}
 		};
 	}
+
+	//////////////////////////////////////////////////////
 
 	public KizzyClient setApplicationID(String id) {
 		this.application_id = id;
@@ -164,6 +165,8 @@ public class KizzyClient extends Extension {
 		button_urls.add(link);
 		return this;
 	}
+
+	//////////////////////////////////////////////////////
 
 	public void rebuildClient() {
 		ArrayMap<String, Object> activity = new ArrayMap<String, Object>();
@@ -228,6 +231,8 @@ public class KizzyClient extends Extension {
 
 		sendToClient(identify);
 	}
+
+	//////////////////////////////////////////////////////
 
 	private void createClient() {
 		URI uri;
@@ -366,6 +371,8 @@ public class KizzyClient extends Extension {
 		webSocketClient.connect();
 	}
 
+	//////////////////////////////////////////////////////
+
 	private void sendToClient(Object obj) {
 		if (webSocketClient != null)
 			webSocketClient.send(gson.toJson(obj));
@@ -385,4 +392,6 @@ public class KizzyClient extends Extension {
 
 		return false;
 	}
+
+	//////////////////////////////////////////////////////
 }
