@@ -261,7 +261,8 @@ public class KizzyClient extends Extension {
 				switch (op) {
 					case 0:
 						if (map.get("t").toString().equals("READY")) {
-							session_id = ((Map) map.get("d")).get("session_id").toString();
+							Map d = (Map) map.get("d");
+							session_id = d.get("session_id").toString();
 
 							Log.i(LOG_TAG, "Connected!");
 							sendToClient(rpc);
@@ -291,7 +292,8 @@ public class KizzyClient extends Extension {
 						sendIdentify();
 						break;
 					case 10:
-						heartbeatInterval = ((Map) map.get("d")).get("heartbeat_interval").intValue();
+						Map d = (Map) map.get("d");
+						heartbeatInterval = ((Double) d.get("heartbeat_interval")).intValue();
 
 						if (heartbeatThread != null && !heartbeatThread.interrupted()) {
 							heartbeatThread.interrupt();
