@@ -58,10 +58,8 @@ public class KizzyClient extends Extension {
 	private String small_image;
 	private String status;
 
-	private String button1_label;
-	private String button2_label;
-	private String button1_url;
-	private String button2_url;
+	private ArrayList<String> buttons = new ArrayList<String>();
+	private ArrayList<String> button_urls = new ArrayList<String>();
 
 	private Long start;
 	private Long stop;
@@ -165,14 +163,14 @@ public class KizzyClient extends Extension {
 	}
 
 	public KizzyClient setButton1(String label, String url) {
-		this.button1_label = label;
-		this.button1_url = url;
+		buttons.add(button1_label);
+		button_urls.add(button1_url);
 		return this;
 	}
 
 	public KizzyClient setButton2(String label, String url) {
-		this.button2_label = label;
-		this.button2_url = url;
+		buttons.add(button2_label);
+		button_urls.add(button2_url);
 		return this;
 	}
 
@@ -201,18 +199,17 @@ public class KizzyClient extends Extension {
 		assets.put("small_image", small_image);
 		activity.put("assets", assets);
 
-		ArrayList<String> buttons = new ArrayList<String>();
-		buttons.add(button1_label);
-		buttons.add(button2_label);
-		activity.put("buttons", buttons);
+		if (buttons.size() > 0)
+		{
+			activity.put("buttons", buttons);
 
-		ArrayList<String> button_urls = new ArrayList<String>();
-		button_urls.add(button1_url);
-		button_urls.add(button2_url);
-
-		ArrayMap<String, Object> metadata = new ArrayMap<String, Object>();
-		metadata.put("button_urls", button_urls);
-		activity.put("metadata", metadata);
+			if (button_urls.size() > 0)
+			{
+				ArrayMap<String, Object> metadata = new ArrayMap<String, Object>();
+				metadata.put("button_urls", button_urls);
+				activity.put("metadata", metadata);
+			}
+		}
 
 		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
 		d.put("activities", new Object[] {
