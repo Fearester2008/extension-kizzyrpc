@@ -417,7 +417,7 @@ public class KizzyClient extends Extension {
 	 * Perform any final cleanup before an activity is destroyed.
 	 */
 	@Override
-	public void onDestroy () {
+	public void onDestroy() {
 		if (close_on_destroy) {
 			closeClient();
 		}
