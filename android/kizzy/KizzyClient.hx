@@ -99,15 +99,15 @@ class KizzyClient
 		return this;
 	}
 
-	public function setButton1(label:String, link:String):KizzyClient
+	public function setButton1(label:String, url:String):KizzyClient
 	{
-		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setButton1', '(Ljava/lang/String;Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [label, link]);
+		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setButton1', '(Ljava/lang/String;Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [label, url]);
 		return this;
 	}
 
-	public function setButton2(label:String, link:String):KizzyClient
+	public function setButton2(label:String, url:String):KizzyClient
 	{
-		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setButton2', '(Ljava/lang/String;Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [label, link]);
+		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setButton2', '(Ljava/lang/String;Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [label, url]);
 		return this;
 	}
 
