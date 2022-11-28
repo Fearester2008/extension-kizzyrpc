@@ -163,14 +163,14 @@ public class KizzyClient extends Extension {
 	}
 
 	public KizzyClient setButton1(String label, String url) {
-		buttons.add(button1_label);
-		button_urls.add(button1_url);
+		buttons.add(label);
+		button_urls.add(url);
 		return this;
 	}
 
 	public KizzyClient setButton2(String label, String url) {
-		buttons.add(button2_label);
-		button_urls.add(button2_url);
+		buttons.add(label);
+		button_urls.add(url);
 		return this;
 	}
 
