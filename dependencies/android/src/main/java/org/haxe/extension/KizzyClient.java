@@ -71,6 +71,7 @@ public class KizzyClient extends Extension {
 
 	private String session_id;
 	private boolean reconnect_session = false;
+	private boolean close_on_destroy = false;
 
 	private ArrayMap<String, Object> rpc = new ArrayMap<String, Object>();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
@@ -164,14 +165,19 @@ public class KizzyClient extends Extension {
 	}
 
 	public KizzyClient setButton1(String label, String url) {
-		button1_label = label;
-		button1_url = url;
+		this.button1_label = label;
+		this.button1_url = url;
 		return this;
 	}
 
 	public KizzyClient setButton2(String label, String url) {
-		button2_label = label;
-		button2_url = url;
+		this.button2_label = label;
+		this.button2_url = url;
+		return this;
+	}
+
+	public KizzyClient closeOnDestroy(boolean close) {
+		this.close_on_destroy = close;
 		return this;
 	}
 
@@ -406,6 +412,17 @@ public class KizzyClient extends Extension {
 			return webSocketClient.isOpen();
 
 		return false;
+	}
+
+	//////////////////////////////////////////////////////
+
+	/**
+	 * Perform any final cleanup before an activity is destroyed.
+	 */
+	public void onDestroy () {
+		if (close_on_destroy) {
+			closeClient();
+		}
 	}
 
 	//////////////////////////////////////////////////////
