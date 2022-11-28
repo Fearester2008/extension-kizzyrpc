@@ -4,6 +4,8 @@
 
 	<dependency name="kizzyrpc" path="dependencies/android" if="android" />
 
+	<config:android extension="org.haxe.extension.KizzyClient" />
+
 	<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
 	<config:android permission="android.permission.INTERNET" />
 </extension>
