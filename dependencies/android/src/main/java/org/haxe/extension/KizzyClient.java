@@ -296,19 +296,13 @@ public class KizzyClient extends Extension {
 							heartbeatThread.interrupt();
 						}
 
-						if (!reconnectSession) {
-							Map d = (Map) map.get("d");
-							heartbeatInterval = ((Double) d.get("heartbeat_interval")).intValue();
-							heartbeatThread = new Thread(heartbeatRunnable);
-							heartbeatThread.start();
-							sendIdentify();
-						} else {
-							reconnectSession = false;
+						Map mapd = (Map) map.get("d");
+						heartbeatInterval = ((Double) mapd.get("heartbeat_interval")).intValue();
+						heartbeatThread = new Thread(heartbeatRunnable);
+						heartbeatThread.start();
 
-							Map d = (Map) map.get("d");
-							heartbeatInterval = ((Double) d.get("heartbeat_interval")).intValue();
-							heartbeatThread = new Thread(heartbeatRunnable);
-							heartbeatThread.start();
+						if (reconnectSession) {
+							reconnectSession = false;
 
 							ArrayMap<String, Object> d = new ArrayMap<String, Object>();
 							d.put("token", token);
@@ -319,6 +313,8 @@ public class KizzyClient extends Extension {
 							obj.put("op", 6);
 							obj.put("d", d);
 							sendToClient(obj);
+						} else {
+							sendIdentify();
 						}
 
 						break;
