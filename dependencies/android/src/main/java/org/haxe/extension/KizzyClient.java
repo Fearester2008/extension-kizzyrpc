@@ -50,7 +50,6 @@ public class KizzyClient extends Extension {
 	public static final String LOG_TAG = "KizzyClient";
 
 	private String token;
-	private String session_id;
 	private String application_id;
 	private String name;
 	private String details;
@@ -70,11 +69,11 @@ public class KizzyClient extends Extension {
 	private int type = 0;
 	private int seq = 0;
 
-	private boolean reconnectSession = false;
+	private String session_id;
+	private boolean reconnect_session = false;
 
 	private ArrayMap<String, Object> rpc = new ArrayMap<String, Object>();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-
 	private WebSocketClient webSocketClient;
 
 	private int heartbeatInterval = 0;
@@ -300,7 +299,7 @@ public class KizzyClient extends Extension {
 						sendToClient(obj);
 						break;
 					case 7:
-						reconnectSession = true;
+						reconnect_session = true;
 						webSocketClient.close(4000);
 						break;
 					case 9:
@@ -322,8 +321,8 @@ public class KizzyClient extends Extension {
 						heartbeatThread = new Thread(heartbeatRunnable);
 						heartbeatThread.start();
 
-						if (reconnectSession) {
-							reconnectSession = false;
+						if (reconnect_session) {
+							reconnect_session = false;
 
 							ArrayMap<String, Object> d = new ArrayMap<String, Object>();
 							d.put("token", token);
@@ -353,7 +352,7 @@ public class KizzyClient extends Extension {
 			@Override
 			public void onClose(int code, String reason, boolean remote) {
 				if (code == 4000) {
-					reconnectSession = true;
+					reconnect_session = true;
 
 					if (heartbeatThread != null && !heartbeatThread.isInterrupted())
 						heartbeatThread.interrupt();
