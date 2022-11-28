@@ -111,6 +111,12 @@ class KizzyClient
 		return this;
 	}
 
+	public function closeOnDestroy(close:Bool = false):KizzyClient
+	{
+		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'closeOnDestroy', '(Z)Lorg/haxe/extension/KizzyClient;'), constructor, [close]);
+		return this;
+	}
+
 	//////////////////////////////////////////////////////
 
 	public function rebuildClient():Void
