@@ -59,6 +59,11 @@ public class KizzyClient extends Extension {
 	private String small_image;
 	private String status;
 
+	private String button1_label;
+	private String button2_label;
+	private String button1_url;
+	private String button2_url;
+
 	private Long start;
 	private Long stop;
 
@@ -66,9 +71,6 @@ public class KizzyClient extends Extension {
 	private int seq = 0;
 
 	private boolean reconnectSession = false;
-
-	private ArrayList<String> buttons = new ArrayList<String>();
-	private ArrayList<String> button_urls = new ArrayList<String>();
 
 	private ArrayMap<String, Object> rpc = new ArrayMap<String, Object>();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
@@ -158,15 +160,15 @@ public class KizzyClient extends Extension {
 		return this;
 	}
 
-	public KizzyClient setButton1(String label, String link) {
-		buttons.add(label);
-		button_urls.add(link);
+	public KizzyClient setButton1(String label, String url) {
+		button1_label = label;
+		button1_url = url;
 		return this;
 	}
 
-	public KizzyClient setButton2(String label, String link) {
-		buttons.add(label);
-		button_urls.add(link);
+	public KizzyClient setButton2(String label, String url) {
+		button2_label = label;
+		button2_url = url;
 		return this;
 	}
 
@@ -190,13 +192,18 @@ public class KizzyClient extends Extension {
 		assets.put("small_image", small_image);
 		activity.put("assets", assets);
 
-		if (buttons.size() > 0) {
-			activity.put("buttons", buttons);
+		ArrayList<String> buttons = new ArrayList<String>();
+		buttons.add(button1_label);
+		buttons.add(button2_label);
+		activity.put("buttons", buttons);
 
-			ArrayMap<String, Object> metadata = new ArrayMap<String, Object>();
-			metadata.put("button_urls", button_urls);
-			activity.put("metadata", metadata);
-		}
+		ArrayList<String> button_urls = new ArrayList<String>();
+		button_urls.add(button1_url);
+		button_urls.add(button2_url);
+
+		ArrayMap<String, Object> metadata = new ArrayMap<String, Object>();
+		metadata.put("button_urls", button_urls);
+		activity.put("metadata", metadata);
 
 		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
 		d.put("activities", new Object[] {
