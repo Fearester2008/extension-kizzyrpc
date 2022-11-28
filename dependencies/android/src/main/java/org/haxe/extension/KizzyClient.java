@@ -292,20 +292,21 @@ public class KizzyClient extends Extension {
 						sendIdentify();
 						break;
 					case 10:
-						Map d = (Map) map.get("d");
-						heartbeatInterval = ((Double) d.get("heartbeat_interval")).intValue();
-
 						if (heartbeatThread != null && !heartbeatThread.interrupted()) {
 							heartbeatThread.interrupt();
 						}
 
 						if (!reconnectSession) {
+							Map d = (Map) map.get("d");
+							heartbeatInterval = ((Double) d.get("heartbeat_interval")).intValue();
 							heartbeatThread = new Thread(heartbeatRunnable);
 							heartbeatThread.start();
 							sendIdentify();
 						} else {
 							reconnectSession = false;
 
+							Map d = (Map) map.get("d");
+							heartbeatInterval = ((Double) d.get("heartbeat_interval")).intValue();
 							heartbeatThread = new Thread(heartbeatRunnable);
 							heartbeatThread.start();
 
