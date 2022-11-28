@@ -270,10 +270,11 @@ public class KizzyClient extends Extension {
 				switch (op) {
 					case 0:
 						if (map.get("t").toString().equals("READY")) {
+							Log.i(LOG_TAG, "Connected!");
+
 							Map d = (Map) map.get("d");
 							session_id = d.get("session_id").toString();
 
-							Log.i(LOG_TAG, "Connected!");
 							sendToClient(rpc);
 							return;
 						}
@@ -318,10 +319,10 @@ public class KizzyClient extends Extension {
 							d.put("session_id", session_id);
 							d.put("seq", seq);
 
-							ArrayMap<String, Object> obj = new ArrayMap<String, Object>();
-							obj.put("op", 6);
-							obj.put("d", d);
-							sendToClient(obj);
+							ArrayMap<String, Object> reconnectObj = new ArrayMap<String, Object>();
+							reconnectObj.put("op", 6);
+							reconnectObj.put("d", d);
+							sendToClient(reconnectObj);
 						} else {
 							sendIdentify();
 						}
