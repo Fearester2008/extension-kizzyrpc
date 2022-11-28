@@ -102,63 +102,63 @@ public class KizzyClient extends Extension {
 		};
 	}
 
-	public KizzyRPCservice setApplicationID(String id) {
+	public KizzyClient setApplicationID(String id) {
 		this.application_id = id;
 		return this;
 	}
 
-	public KizzyRPCservice setName(String name) {
+	public KizzyClient setName(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public KizzyRPCservice setDetails(String details) {
+	public KizzyClient setDetails(String details) {
 		this.details = details;
 		return this;
 	}
 
-	public KizzyRPCservice setState(String state) {
+	public KizzyClient setState(String state) {
 		this.state = state;
 		return this;
 	}
 
-	public KizzyRPCservice setLargeImage(String large_image) {
+	public KizzyClient setLargeImage(String large_image) {
 		this.large_image = "mp:" + large_image;
 		return this;
 	}
 
-	public KizzyRPCservice setSmallImage(String link) {
+	public KizzyClient setSmallImage(String link) {
 		this.small_image = "mp:" + link;
 		return this;
 	}
 
-	public KizzyRPCservice setStartTimeStamps(Long timestamps) {
+	public KizzyClient setStartTimeStamps(Long timestamps) {
 		this.start = timestamps;
 		return this;
 	}
 
-	public KizzyRPCservice setStopTimeStamps(Long timestamps) {
+	public KizzyClient setStopTimeStamps(Long timestamps) {
 		this.stop = timestamps;
 		return this;
 	}
 
-	public KizzyRPCservice setType(int type) {
+	public KizzyClient setType(int type) {
 		this.type = type;
 		return this;
 	}
 
-	public KizzyRPCservice setStatus(String status) {
+	public KizzyClient setStatus(String status) {
 		this.status = status;
 		return this;
 	}
 
-	public KizzyRPCservice setButton1(String label, String link) {
+	public KizzyClient setButton1(String label, String link) {
 		buttons.add(label);
 		button_urls.add(link);
 		return this;
 	}
 
-	public KizzyRPCservice setButton2(String label, String link) {
+	public KizzyClient setButton2(String label, String link) {
 		buttons.add(label);
 		button_urls.add(link);
 		return this;
