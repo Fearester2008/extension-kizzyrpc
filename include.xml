@@ -2,7 +2,7 @@
 <extension>
 	<!-- Use the following for an Android Java extension, not needed otherwise -->
 
-	<dependency name="kizzyrcp" path="dependencies/android" if="android" />
+	<dependency name="kizzyrpc" path="dependencies/android" if="android" />
 
 	<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
 	<config:android permission="android.permission.INTERNET" />
