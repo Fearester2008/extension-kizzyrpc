@@ -84,25 +84,7 @@ public class KizzyClient extends Extension {
 	//////////////////////////////////////////////////////
 
 	public KizzyClient() {
-		heartbeatRunnable = new Runnable() {
-			public void run() {
-				try {
-					if (heartbeatInterval < 10000) {
-						throw new RuntimeException("Invalid");
-					}
-
-					Thread.sleep(heartbeatInterval);
-
-					ArrayMap<String, Object> obj = new ArrayMap<String, Object>();
-					obj.put("op", 1);
-					obj.put("d", seq == 0 ? "null" : Integer.toString(seq));
-					sendToClient(obj);
-
-				} catch (Exception e) {
-					Log.e(LOG_TAG, e.toString());
-				}
-			}
-		};
+		// this is here to not break lime extension shit.
 	}
 
 	public KizzyClient(String token) {
