@@ -347,7 +347,6 @@ public class KizzyClient extends Extension {
 
 					Log.i(LOG_TAG, "Closed Socket");
 					Thread heartbeatNewThread = new Thread(new Runnable() {
-
 						public void run() {
 							try {
 								Thread.sleep(200);
