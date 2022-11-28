@@ -45,6 +45,8 @@ import org.haxe.extension.Extension;
 */
 public class KizzyClient extends Extension {
 
+	//////////////////////////////////////////////////////
+
 	public static final String LOG_TAG = "KizzyClient";
 
 	private String token;
@@ -76,6 +78,8 @@ public class KizzyClient extends Extension {
 	private int heartbeatInterval = 0;
 	private Runnable heartbeatRunnable;
 	private Thread heartbeatThread;
+
+	//////////////////////////////////////////////////////
 
 	public KizzyClient(String token) {
 
