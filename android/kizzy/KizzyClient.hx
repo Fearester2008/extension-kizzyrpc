@@ -4,13 +4,19 @@ import lime.system.JNI;
 
 class KizzyClient
 {
+	//////////////////////////////////////////////////////
+
 	private var constructor:Dynamic;
+
+	//////////////////////////////////////////////////////
 
 	public function new(token:String):Void
 	{
 		var constructor_jni:Dynamic = JNI.createStaticMethod('org/haxe/extension/KizzyClient', '<init>', '(Ljava/lang/String;)V');
                 constructor = constructor_jni(token);
 	}
+
+	//////////////////////////////////////////////////////
 
 	public function setApplicationID(id:String):KizzyClient
 	{
@@ -84,6 +90,8 @@ class KizzyClient
 		return this;
 	}
 
+	//////////////////////////////////////////////////////
+
 	public function rebuildClient():Void
 		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'rebuildClient', '()V'), constructor, []);
 
@@ -92,4 +100,6 @@ class KizzyClient
 
 	public function isClientRunning():Bool
 		return JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'isClientRunning', '()Z'), constructor, []);
+
+	//////////////////////////////////////////////////////
 }
