@@ -2,6 +2,12 @@ package android.kizzy;
 
 import lime.system.JNI;
 
+using StringTools;
+
+/**
+ * @author Mihai Alexandru (M.A. Jigsaw)
+ */
+
 class KizzyClient
 {
 	//////////////////////////////////////////////////////
@@ -44,12 +50,24 @@ class KizzyClient
 
 	public function setLargeImage(link:String):KizzyClient
 	{
+		if (link.startsWith('https://media.discordapp.net/'))
+			link = link.replace('https://media.discordapp.net/', '');
+
+		if (!link.startsWith('attachments/'))
+			link = link + 'attachments/';
+
 		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setLargeImage', '(Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [link]);
 		return this;
 	}
 
 	public function setSmallImage(link:String):KizzyClient
 	{
+		if (link.startsWith('https://media.discordapp.net/'))
+			link = link.replace('https://media.discordapp.net/', '');
+
+		if (!link.startsWith('attachments/'))
+			link = link + 'attachments/';
+
 		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setSmallImage', '(Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [link]);
 		return this;
 	}
