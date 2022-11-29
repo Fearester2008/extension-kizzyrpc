@@ -25,7 +25,7 @@ Step 3. Done, this is a little example for how to use it.
 ```haxe
 import android.kizzy.KizzyClient;
 
-var kizzyClient:KizzyClient = new KizzyClient(token.value);
+var kizzyClient:KizzyClient = new KizzyClient(token); // your account token
 kizzyClient.setApplicationID('378534231036395521');
 kizzyClient.setName('Kizzy RPC Client Android');
 kizzyClient.setDetails('When RPC is sus');
@@ -38,6 +38,8 @@ kizzyClient.setStatus('idle');
 kizzyClient.closeOnDestroy(true);
 kizzyClient.rebuildClient();
 ```
+If you use this code, on `Discord` it will look like this:
+![](https://media.discordapp.net/attachments/1043613190535258242/1047082598498828299/IMG_20221129_113154.jpg)
 
 Credits
 =======
