@@ -308,12 +308,10 @@ public class KizzyClient extends Extension {
 					case 9:
 						if (heartbeatThread != null && !heartbeatThread.interrupted()) {
 							heartbeatThread.interrupt();
+							heartbeatThread = new Thread(heartbeatRunnable);
+							heartbeatThread.start();
+							sendIdentify();
 						}
-
-						heartbeatThread = new Thread(heartbeatRunnable);
-						heartbeatThread.start();
-						sendIdentify();
-						break;
 					case 10:
 						if (heartbeatThread != null && !heartbeatThread.interrupted()) {
 							heartbeatThread.interrupt();
@@ -361,14 +359,12 @@ public class KizzyClient extends Extension {
 						heartbeatThread.interrupt();
 
 					Log.i(LOG_TAG, "Closed Socket");
-					Thread heartbeatNewThread = new Thread(new Runnable() {
-						public void run() {
-							try {
-								Thread.sleep(200);
-								reconnect();
-							} catch (Exception e) {
-								Log.e(LOG_TAG, e.toString());
-							}
+					Thread heartbeatNewThread = new Thread(() -> {
+						try {
+							Thread.sleep(200);
+							reconnect();
+						} catch (Exception e) {
+							Log.e(LOG_TAG, e.toString());
 						}
 					});
 					heartbeatNewThread.start();
