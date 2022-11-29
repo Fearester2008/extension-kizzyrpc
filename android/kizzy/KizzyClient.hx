@@ -75,15 +75,15 @@ class KizzyClient
 		return this;
 	}
 
-	public function setStartTimeStamps(timestamps:Dynamic):KizzyClient
+	public function setStartTimeStamps(time:Int, useMilliseconds:Bool = true):KizzyClient
 	{
-		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setStartTimeStamps', '(J)Lorg/haxe/extension/KizzyClient;'), constructor, [timestamps]);
+		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setStartTimeStamps', '(IZ)Lorg/haxe/extension/KizzyClient;'), constructor, [time, useMilliseconds]);
 		return this;
 	}
 
-	public function setStopTimeStamps(timestamps:Dynamic):KizzyClient
+	public function setStopTimeStamps(time:Int, useMilliseconds:Bool = true):KizzyClient
 	{
-		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setStopTimeStamps', '(J)Lorg/haxe/extension/KizzyClient;'), constructor, [timestamps]);
+		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setStopTimeStamps', '(IZ)Lorg/haxe/extension/KizzyClient;'), constructor, [time, useMilliseconds]);
 		return this;
 	}
 
