@@ -142,13 +142,13 @@ public class KizzyClient extends Extension {
 		return this;
 	}
 
-	public KizzyClient setStartTimeStamps(Long timestamps) {
-		this.start = timestamps;
+	public KizzyClient setStartTimeStamps(int time, boolean useMilliseconds) {
+		this.start = new Long(useMilliseconds ? System.currentTimeMillis() + time : time);
 		return this;
 	}
 
-	public KizzyClient setStopTimeStamps(Long timestamps) {
-		this.stop = timestamps;
+	public KizzyClient setStopTimeStamps(int time, boolean useMilliseconds) {
+		this.stop = new Long(useMilliseconds ? System.currentTimeMillis() + time : time);
 		return this;
 	}
 
