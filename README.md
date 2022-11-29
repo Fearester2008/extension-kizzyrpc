@@ -8,7 +8,13 @@ Installation instructions
 
 Step 1. Install the Haxelib.
 
-You can also install it through Git:
+You can install it through haxelib:
+
+```
+haxelib install extension-kizzyrpc
+```
+
+You can also install it through Git for the latest updates:
 
 ```
 haxelib git extension-kizzyrpc https://github.com/MAJigsaw77/extension-kizzyrpc.git
@@ -39,7 +45,8 @@ kizzyClient.setStatus('idle');
 kizzyClient.closeOnDestroy(true);
 kizzyClient.rebuildClient();
 ```
-If you use this code, on `Discord` it will look like this:
+If you used this code, on `Discord` it will look like this:
+
 ![](https://media.discordapp.net/attachments/1043613190535258242/1047082598498828299/IMG_20221129_113154.jpg)
 
 Credits
