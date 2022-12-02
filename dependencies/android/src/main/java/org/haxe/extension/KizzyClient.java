@@ -233,7 +233,7 @@ public class KizzyClient extends Extension {
 		ArrayMap<String, Object> properties = new ArrayMap<String, Object>();
 		properties.put("os", "Linux");
 		properties.put("browser", "Unknown");
-		properties.put("device", Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")");
+		properties.put("device", "Android " + Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")");
 
 		ArrayMap<String, Object> d = new ArrayMap<String, Object>();
 		d.put("capabilities", 65);
