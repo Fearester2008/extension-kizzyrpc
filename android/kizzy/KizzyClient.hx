@@ -10,7 +10,6 @@ using StringTools;
 /**
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
-
 class KizzyClient
 {
 	//////////////////////////////////////////////////////
