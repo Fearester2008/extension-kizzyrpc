@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 repositories {
-	google()
 	mavenCentral()
+	google()
 }
 
 android {
