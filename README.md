@@ -45,12 +45,3 @@ kizzyClient.setStatus('idle');
 kizzyClient.closeOnDestroy(true);
 kizzyClient.rebuildClient();
 ```
-If you used this code, on `Discord` it will look like this:
-
-![](https://media.discordapp.net/attachments/1043613190535258242/1047082598498828299/IMG_20221129_113154.jpg)
-
-Credits
-=======
-
-- [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator of this extension.
-- The contributors.
