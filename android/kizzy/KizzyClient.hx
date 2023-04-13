@@ -56,7 +56,7 @@ class KizzyClient
 			link = link.replace('https://media.discordapp.net/', '');
 
 		if (!link.startsWith('attachments/'))
-			link = link + 'attachments/';
+			link = 'attachments/' + link;
 
 		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setLargeImage', '(Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [link]);
 		return this;
@@ -68,7 +68,7 @@ class KizzyClient
 			link = link.replace('https://media.discordapp.net/', '');
 
 		if (!link.startsWith('attachments/'))
-			link = link + 'attachments/';
+			link = 'attachments/' + link;
 
 		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setSmallImage', '(Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [link]);
 		return this;
@@ -107,12 +107,6 @@ class KizzyClient
 	public function setButton2(label:String, url:String):KizzyClient
 	{
 		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'setButton2', '(Ljava/lang/String;Ljava/lang/String;)Lorg/haxe/extension/KizzyClient;'), constructor, [label, url]);
-		return this;
-	}
-
-	public function closeOnDestroy(close:Bool = false):KizzyClient
-	{
-		JNI.callMember(JNI.createMemberMethod('org/haxe/extension/KizzyClient', 'closeOnDestroy', '(Z)Lorg/haxe/extension/KizzyClient;'), constructor, [close]);
 		return this;
 	}
 
