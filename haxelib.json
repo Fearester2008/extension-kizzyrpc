@@ -1,6 +1,6 @@
 {
 	"name":"extension-kizzyrpc",
-	"url":"https://github.com/MAJigsaw77/extension-kizzyrpc",
+	"url":"https://github.com/Fearester2008/extension-kizzyrpc",
 	"license":"MIT",
 	"tags":[
 		"android",
@@ -12,6 +12,6 @@
 	"version":"1.0.1",
 	"releasenote":"Updated the License.",
 	"contributors":[
-		"MAJigsaw77"
+		"Fearester2008"
 	]
 }
